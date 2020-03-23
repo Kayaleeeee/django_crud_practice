@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>title : {{post.title}}</h2>
+{% if post.img %}
+<img src="{{post.img.url}}" alt="img error" />
+
+{% endif %}
+<h2>책 리뷰</h2>
+
+<p>{{post.contents}}</p>
+<h4>가격 : {{post.price}}</h4>
+<h4>리뷰 점수 : {{post.rating}}</h4>
+
+<br />
+
+<h2>댓글 목록</h2>
+{% for com in post.comments.all %}
+
+<li>
+  {{com.content}}
+  <a href="{% url 'delete_comment' post.pk com.pk %}"> 댓글삭제</a>
+</li>
+{% endfor %}
+
+<form method="POST">
+  {% csrf_token %} {{form.as_p}}
+  <button type="submit">댓글 달기</button>
+</form>
+
+<a href="{% url 'edit' post.pk %}">편집</a>
+<a href="{% url 'delete' post.pk %}">삭제</a>
+<a href="{% url 'home' %}">메인으로</a>
+{% endblock %}
